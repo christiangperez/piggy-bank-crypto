@@ -1,12 +1,11 @@
 import { Provider } from "react-redux";
 import { store } from './redux/store/store';
+import { AppRouter } from "./routers/AppRouter";
 
 const App = () => {
   return (
     <Provider store={ store }>
-      <div>
-        <h1>Piggy Bank Crypto</h1>
-      </div>
+      <AppRouter />
     </Provider>
   );
 }
