@@ -1,38 +1,46 @@
 import { useEffect, useState } from "react";
 import { Grid, Typography, Button, useMediaQuery, useTheme, Container, Card, CardHeader, CardContent, CssBaseline, AppBar } from "@mui/material"
 import SavingsIcon from '@mui/icons-material/Savings';
+import { useNavigate } from "react-router";
+
+const cards = [
+  {
+    title: 'SAVING',
+    description: 'A WAY TO FORCE YOU TO SAVE'
+  },
+  {
+    title: 'SECURITY',
+    description: 'PROTECT YOUR FOUNDS TO ANYTHING'
+  },
+  {
+    title: 'HIDDING',
+    description: 'HIDE YOUR FOUNDS FOR SECURITY'
+  }
+];
 
 export const HomeScreen = () => {
-  const cards = [
-      {
-        title: 'SAVING',
-        description: 'A WAY TO FORCE YOU TO SAVE'
-      },
-      {
-        title: 'SECURITY',
-        description: 'PROTECT YOUR FOUNDS TO ANYTHING'
-      },
-      {
-        title: 'HIDDING',
-        description: 'HIDE YOUR FOUNDS FOR SECURITY'
+
+  const navigate = useNavigate();
+
+  const theme = useTheme();
+  const mdOrUp = useMediaQuery(theme.breakpoints.up('md'));
+  const [height, setHeight] = useState(window.innerHeight);
+
+  useEffect(() => {
+      const handleResize = () => {
+          setHeight(window.innerHeight);
       }
-    ];
 
-    const theme = useTheme();
-    const mdOrUp = useMediaQuery(theme.breakpoints.up('md'));
-    const [height, setHeight] = useState(window.innerHeight);
+      window.addEventListener('resize', handleResize);
 
-    useEffect(() => {
-        const handleResize = () => {
-            setHeight(window.innerHeight);
-        }
-
-        window.addEventListener('resize', handleResize);
-
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        }
-        }, []);
+      return () => {
+          window.removeEventListener('resize', handleResize);
+      }
+  }, []);
+  
+  const handleClickCreate = () => {
+    navigate('/create');
+  }
 
   return (
     <>
@@ -97,6 +105,7 @@ export const HomeScreen = () => {
                     size='large' 
                     color='success'
                     sx={{ marginTop: 2 }}
+                    onClick={handleClickCreate}
                 >
                     CREATE MY PIGGY BANK
                 </Button>

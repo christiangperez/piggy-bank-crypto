@@ -13,6 +13,10 @@ export const CreatePiggyScreen = () => {
     });
   };
 
+  const handleClickCreate = () => {
+    console.log('create');
+  }
+
   return (
     <Container component="main" maxWidth="xs">
       <Box
@@ -61,6 +65,7 @@ export const CreatePiggyScreen = () => {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              onClick={handleClickCreate}
             >
               CREATE
             </Button>
