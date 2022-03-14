@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AppBar, Typography, Toolbar, Tabs, Tab, useMediaQuery, useTheme, IconButton, Menu, MenuItem, Fade } from '@mui/material';
+import { AppBar, Typography, Toolbar, Tabs, Tab, useMediaQuery, useTheme, IconButton, Menu, MenuItem, Fade, Button } from '@mui/material';
+import { useDispatch } from 'react-redux';
 
 import SavingsIcon from '@mui/icons-material/Savings';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
@@ -9,9 +10,11 @@ import DrawerNav from './DrawerNav';
 import { HocWithRouter } from '../../routers/HocWithRouter';
 import { CapitalizeFirstLetter } from '../../common/utils/Utils';
 import { NavbarLinks } from './NavbarLinks';
+import { startConnectWallet } from '../../redux/actions/walletActions';
 
 const Navbar = (props: any) => {
 
+    const dispatch = useDispatch();
     const { router } = props;
     const { location } = router;
     const { pathname } = location;
@@ -22,6 +25,7 @@ const Navbar = (props: any) => {
 
     const positionInLinks = NavbarLinks.indexOf(String(pathname.slice(1)).toLowerCase());
     const [selectedTab, setSelectedTab] = useState(positionInLinks >= 0 ? positionInLinks : 0);
+    const walletAddress = '';
 
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
@@ -45,6 +49,11 @@ const Navbar = (props: any) => {
 
     const handleClickHome = () => {
         navigate('/');
+    }
+
+    const handleClickConnectWallet = () => {
+        console.log('connect wallet');
+        dispatch(startConnectWallet());
     }
 
     return (
@@ -85,14 +94,30 @@ const Navbar = (props: any) => {
                             </>
                         )
                     }
-                    <IconButton
-                        edge="start"
-                        color="inherit"
-                        onClick={handleClickWallet}
-                    >
-                        <Typography sx={{ marginRight: '5px'}} >0x23cs2</Typography>
-                        <AccountBalanceWalletIcon />
-                    </IconButton>
+                    {
+                        (walletAddress)
+                        ? (
+                            <IconButton
+                                edge="start"
+                                color="inherit"
+                                onClick={handleClickWallet}
+                            >
+                                <Typography sx={{ marginRight: '5px'}} >{walletAddress}</Typography>
+                                <AccountBalanceWalletIcon />
+                            </IconButton>
+                        )
+                        : (
+                            <Button
+                                variant='contained' 
+                                size='small' 
+                                color='success'
+                                // sx={{ marginTop: 2 }}
+                                onClick={handleClickConnectWallet}
+                            >
+                                Connect Wallet
+                            </Button>
+                        )
+                    }
                     <Menu
                         id="fade-menu"
                         MenuListProps={{ 'aria-labelledby': 'fade-button' }}
