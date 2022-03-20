@@ -1,8 +1,14 @@
-import { Avatar, Button, Container, Grid, TextField, Typography } from '@mui/material';
+import { useSelector } from 'react-redux';
+import { Avatar, Button, Container, Grid, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
+
 import SavingsIcon from '@mui/icons-material/Savings';
+import { IRootState } from '../../redux/store/store';
+import { ConnectWallet } from '../../common/components/ConnectWallet';
 
 export const ViewPiggyScreen = () => {
+
+  const { currentAccount } = useSelector((state: IRootState) => state.wallet);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -51,15 +57,22 @@ export const ViewPiggyScreen = () => {
                 </Typography>
               </Grid>
             </Grid>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-              onClick={handleClickRelease}
-            >
-              RELEASE FOUNDS
-            </Button>
+            {
+              (currentAccount)
+              ? (
+                  <Button
+                    fullWidth
+                    variant="contained"
+                    sx={{ mt: 3, mb: 2 }}
+                    onClick={handleClickRelease}
+                  >
+                    RELEASE FOUNDS
+                  </Button>
+              )
+              : (
+                <ConnectWallet sx={{ mt: 3, mb: 2 }} fullWidth />
+              )
+            }
           </Box>
         </Box>
 

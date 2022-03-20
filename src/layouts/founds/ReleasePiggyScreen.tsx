@@ -1,20 +1,19 @@
-import { Avatar, Button, Container, Grid, TextField, Typography } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+import { Avatar, Button, Container, Grid, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
+
 import SavingsIcon from '@mui/icons-material/Savings';
+import { IRootState } from '../../redux/store/store';
+import { ConnectWallet } from '../../common/components/ConnectWallet';
+import { releaseDeposit } from '../../redux/actions/walletActions';
 
 export const ReleasePiggyScreen = () => {
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-  };
+  const dispatch = useDispatch();
+  const { currentAccount } = useSelector((state: IRootState) => state.wallet);
 
   const handleClickRelease = () => {
-    console.log('release');
+    dispatch(releaseDeposit());
   }
 
   return (
@@ -36,7 +35,6 @@ export const ReleasePiggyScreen = () => {
           <Box 
             component="form" 
             noValidate 
-            onSubmit={handleSubmit} 
             sx={{ mt: 3 }}
           >
             <Grid container spacing={2}>
@@ -51,15 +49,22 @@ export const ReleasePiggyScreen = () => {
                 </Typography>
               </Grid>
             </Grid>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-              onClick={handleClickRelease}
-            >
-              RELEASE FOUNDS
-            </Button>
+            {
+              (currentAccount)
+                ? (
+                    <Button
+                      fullWidth
+                      variant="contained"
+                      sx={{ mt: 3, mb: 2 }}
+                      onClick={handleClickRelease}
+                    >
+                      RELEASE FOUNDS
+                    </Button>
+                )
+                : (
+                  <ConnectWallet sx={{ mt: 3, mb: 2 }} fullWidth />
+                )
+            }
           </Box>
         </Box>
 

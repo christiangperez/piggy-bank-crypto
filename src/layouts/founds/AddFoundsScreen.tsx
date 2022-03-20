@@ -1,21 +1,46 @@
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Avatar, Button, Container, Grid, TextField, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
+
 import SavingsIcon from '@mui/icons-material/Savings';
+import { IRootState } from '../../redux/store/store';
+import { ConnectWallet } from '../../common/components/ConnectWallet';
 
 export const AddFoundsScreen = () => {
 
+  const { currentAccount } = useSelector((state: IRootState) => state.wallet);
+
+  const [errors, setErrors] = useState<{ amount: string }>({ amount: '' });
+
+  const [form, setForm] = useState({
+    amount: ''
+  });
+
+  const { amount } = form;
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value
     });
+
+    setErrors({ ...errors, [e.target.name]: '' });
   };
 
   const handleClickAdd = () => {
-    console.log('add');
-  }
+    if (!amount) {
+      setErrors({ ...errors, amount: 'Required field' });
+    }
+
+    if (amount !== '') {
+      console.log('add');
+    }
+  }  
 
   return (
     <Container component="main" maxWidth="xs">
@@ -52,18 +77,29 @@ export const AddFoundsScreen = () => {
                 id="amount"
                 label="Amount to Add"
                 name="amount"
+                error={Boolean(errors?.amount)}
+                helperText={errors?.amount}
+                value={amount}
+                onChange={handleChange}
               />
             </Grid>
           </Grid>
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}
-            onClick={handleClickAdd}
-          >
-            ADD
-          </Button>
+          {
+            (currentAccount)
+            ? (
+                <Button
+                  fullWidth
+                  variant="contained"
+                  sx={{ mt: 3, mb: 2 }}
+                  onClick={handleClickAdd}
+                >
+                  ADD
+                </Button>
+            )
+            : (
+              <ConnectWallet sx={{ mt: 3, mb: 2 }} fullWidth />
+            )
+          }
         </Box>
       </Box>
 

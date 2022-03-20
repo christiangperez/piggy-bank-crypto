@@ -1,20 +1,50 @@
+import { useState } from 'react';
 import { Avatar, Button, Container, Grid, TextField, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
+import { useSelector } from 'react-redux';
+
 import SavingsIcon from '@mui/icons-material/Savings';
+import { IRootState } from '../../redux/store/store';
+import { ConnectWallet } from '../../common/components/ConnectWallet';
 
 export const CreatePiggyScreen = () => {
 
+  const { currentAccount } = useSelector((state: IRootState) => state.wallet);
+  
+  const [errors, setErrors] = useState<{ amount: string, expireDays: string }>({ amount: '', expireDays: ''});
+
+  const [form, setForm] = useState({
+    amount: '',
+    expireDays: ''
+  });
+
+  const { amount, expireDays } = form;
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value
     });
+
+    setErrors({ ...errors, [e.target.name]: '' });
   };
 
   const handleClickCreate = () => {
-    console.log('create');
+    if (!expireDays) {
+      setErrors({ ...errors, expireDays: 'Required field' });
+    }
+
+    if (!amount) {
+      setErrors({ ...errors, amount: 'Required field' });
+    }
+
+    if (amount !== '' && expireDays !== '') {
+      console.log('create');
+    }
   }
 
   return (
@@ -47,6 +77,11 @@ export const CreatePiggyScreen = () => {
                   id="amount"
                   label="Amount"
                   name="amount"
+                  type="number"
+                  error={Boolean(errors?.amount)}
+                  helperText={errors?.amount}
+                  value={amount}
+                  onChange={handleChange}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -57,18 +92,29 @@ export const CreatePiggyScreen = () => {
                   label="Days to Expires"
                   type="number"
                   id="expireDays"
+                  error={Boolean(errors?.expireDays)}
+                  helperText={errors?.expireDays}
+                  value={expireDays}
+                  onChange={handleChange}
                 />
               </Grid>
             </Grid>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-              onClick={handleClickCreate}
-            >
-              CREATE
-            </Button>
+            {
+              (currentAccount)
+              ? (
+                  <Button
+                    fullWidth
+                    variant="contained"
+                    sx={{ mt: 3, mb: 2 }}
+                    onClick={handleClickCreate}
+                  >
+                    CREATE
+                  </Button>
+              )
+              : (
+                <ConnectWallet sx={{ mt: 3, mb: 2 }} fullWidth />
+              )
+            }
           </Box>
         </Box>
 
