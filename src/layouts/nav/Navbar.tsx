@@ -11,14 +11,14 @@ import DrawerNav from './DrawerNav';
 import { HocWithRouter } from '../../routers/HocWithRouter';
 import { CapitalizeFirstLetter } from '../../common/utils/Utils';
 import { NavbarLinks } from './NavbarLinks';
-import { setCurrentAccount, setIsValidProvider, startConnectWallet } from '../../redux/actions/walletActions';
+import { setAccount, setIsValidProvider, startConnectWallet } from '../../redux/actions/walletActions';
 import { IRootState } from '../../redux/store/store';
 import { ConnectWallet } from '../../common/components/ConnectWallet';
 
 const Navbar = (props: any) => {
 
   const dispatch = useDispatch();
-  const { currentAccount, isValidProvider } = useSelector((state: IRootState) => state.wallet);
+  const { account, isValidProvider } = useSelector((state: IRootState) => state.wallet);
 
   const { router } = props;
   const { location } = router;
@@ -41,10 +41,10 @@ const Navbar = (props: any) => {
   const handleAccountsChanged = (accounts: any) => {
     if (accounts.length === 0) {
       // MetaMask is locked or the user has not connected any accounts
-      console.log('Please connect to MetaMask.');
-    } else if (accounts[0] !== currentAccount) {
+      dispatch({ type: 'showSnackbarTransactionResult', payload: { okStatus: false, description: 'Error. Reconnect your Metamask' }})
+    } else if (accounts[0] !== account) {
       // Account has changed
-      dispatch(setCurrentAccount(accounts[0]));
+      dispatch(setAccount(accounts[0]));
     }
   }
 
@@ -77,10 +77,10 @@ const Navbar = (props: any) => {
   }, []);
 
   useEffect(() => {
-    if (currentAccount) {
-      console.log(currentAccount, 'currentAccount');
+    if (account) {
+      console.log(account, 'currentAccount');
     }
-  }, [currentAccount]);
+  }, [account]);
 
   const handleClickWallet = (event: any) => {
     setAnchorEl(event.currentTarget);
@@ -89,7 +89,7 @@ const Navbar = (props: any) => {
   const handleDisconnectWallet = () => {
     setAnchorEl(null);
     
-    dispatch(setCurrentAccount(''));
+    dispatch(setAccount(''));
   };
 
   const handleChange = (event: any, newValue: number) => {
@@ -102,12 +102,6 @@ const Navbar = (props: any) => {
 
   const handleClickHome = () => {
     navigate('/');
-  }
-
-  const handleClickConnectWallet = () => {
-    if (isValidProvider) {
-        dispatch(startConnectWallet());
-    }
   }
 
   const getShortAccount = (account: string) => {
@@ -157,14 +151,14 @@ const Navbar = (props: any) => {
               )
           }
           {
-              (currentAccount)
+              (account)
               ? (
                   <IconButton
                       edge="start"
                       color="inherit"
                       onClick={handleClickWallet}
                   >
-                      <Typography sx={{ marginRight: '5px'}} >{getShortAccount(currentAccount)}</Typography>
+                      <Typography sx={{ marginRight: '5px'}} >{getShortAccount(account)}</Typography>
                       <AccountBalanceWalletIcon />
                   </IconButton>
               )

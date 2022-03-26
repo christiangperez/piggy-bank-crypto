@@ -1,15 +1,17 @@
 import { useState } from 'react';
-import { Avatar, Button, Container, Grid, TextField, Typography } from '@mui/material';
+import { Avatar, Button, Container, Grid, TextField, Typography, Snackbar, Alert } from '@mui/material';
 import Box from '@mui/material/Box';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import SavingsIcon from '@mui/icons-material/Savings';
 import { IRootState } from '../../redux/store/store';
 import { ConnectWallet } from '../../common/components/ConnectWallet';
+import { hideSnackbarTransactionResult, startMakeDeposit } from '../../redux/actions/walletActions';
 
 export const CreatePiggyScreen = () => {
 
-  const { currentAccount } = useSelector((state: IRootState) => state.wallet);
+  const dispatch = useDispatch();
+  const { account, transactionResult } = useSelector((state: IRootState) => state.wallet);
   
   const [errors, setErrors] = useState<{ amount: string, expireDays: string }>({ amount: '', expireDays: ''});
 
@@ -19,6 +21,8 @@ export const CreatePiggyScreen = () => {
   });
 
   const { amount, expireDays } = form;
+
+  const [openSnackbar, setOpenSnackbar] = useState(false);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -43,8 +47,12 @@ export const CreatePiggyScreen = () => {
     }
 
     if (amount !== '' && expireDays !== '') {
-      console.log('create');
+      dispatch(startMakeDeposit(amount, expireDays));
     }
+  }
+
+  const handleCloseSnackBar = () => {
+    dispatch(hideSnackbarTransactionResult());
   }
 
   return (
@@ -57,6 +65,13 @@ export const CreatePiggyScreen = () => {
             alignItems: 'center',
           }}
         >
+          <Snackbar open={transactionResult.show} key='bottom center' anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }} autoHideDuration={3000} onClose={handleCloseSnackBar}>
+            <Alert onClose={handleCloseSnackBar} severity={ (transactionResult?.okStatus ? 'success' : 'error') } sx={{ width: '100%' }}>
+              {
+                transactionResult?.description
+              }
+            </Alert>
+          </Snackbar>
           <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
             <SavingsIcon />
           </Avatar>
@@ -100,7 +115,7 @@ export const CreatePiggyScreen = () => {
               </Grid>
             </Grid>
             {
-              (currentAccount)
+              (account)
               ? (
                   <Button
                     fullWidth

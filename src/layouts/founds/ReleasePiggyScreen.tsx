@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Avatar, Button, Container, Grid, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
@@ -5,16 +6,20 @@ import Box from '@mui/material/Box';
 import SavingsIcon from '@mui/icons-material/Savings';
 import { IRootState } from '../../redux/store/store';
 import { ConnectWallet } from '../../common/components/ConnectWallet';
-import { releaseDeposit } from '../../redux/actions/walletActions';
+import { startViewMyDeposit, startReleaseDeposit } from '../../redux/actions/walletActions';
 
 export const ReleasePiggyScreen = () => {
 
   const dispatch = useDispatch();
-  const { currentAccount } = useSelector((state: IRootState) => state.wallet);
+  const { account, activeDeposit } = useSelector((state: IRootState) => state.wallet);
 
   const handleClickRelease = () => {
-    dispatch(releaseDeposit());
+    dispatch(startReleaseDeposit());
   }
+
+  useEffect(() => {
+    dispatch(startViewMyDeposit());
+  }, []);
 
   return (
     <Container component="main" maxWidth="xs">
@@ -29,29 +34,47 @@ export const ReleasePiggyScreen = () => {
           <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
             <SavingsIcon />
           </Avatar>
-          <Typography variant="h4">
-            You have a Crypto Piggy Bank CREATED
-          </Typography>
+          {
+            (activeDeposit)
+            ? (
+              <>
+                <Typography variant="h4">
+                  You have a Crypto Piggy Bank CREATED
+                </Typography>
+              </>
+            )
+            : (
+              <Typography variant="h4">
+                You don't have a Crypto Piggy Bank CREATED
+              </Typography>
+            )
+          }
           <Box 
             component="form" 
             noValidate 
             sx={{ mt: 3 }}
           >
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <Typography variant="h6">
-                  Creation date: 09/03/22
-                </Typography>
-              </Grid>
-              <Grid item xs={12}>
-                <Typography variant="h6">
-                  Amount: 0.8 ETH
-                </Typography>
-              </Grid>
-            </Grid>
             {
-              (currentAccount)
-                ? (
+              (activeDeposit) && (
+                <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                    <Typography variant="h6">
+                      Creation date: { activeDeposit?.expireDate }
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Typography variant="h6">
+                      Amount: {activeDeposit?.amount} ETH
+                    </Typography>
+                  </Grid>
+                </Grid>
+              )
+            }
+            {
+              (account)
+              ? (
+                  (activeDeposit?.releaseAvaible)
+                  ? (
                     <Button
                       fullWidth
                       variant="contained"
@@ -60,10 +83,18 @@ export const ReleasePiggyScreen = () => {
                     >
                       RELEASE FOUNDS
                     </Button>
-                )
-                : (
-                  <ConnectWallet sx={{ mt: 3, mb: 2 }} fullWidth />
-                )
+                  )
+                  : (
+                      (activeDeposit) && (
+                        <Typography variant="h6">
+                          Your deposit will be release in 3 days
+                        </Typography>
+                      )
+                  )
+              )
+              : (
+                <ConnectWallet sx={{ mt: 3, mb: 2 }} fullWidth />
+              )
             }
           </Box>
         </Box>
