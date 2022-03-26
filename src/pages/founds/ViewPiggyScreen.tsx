@@ -1,14 +1,15 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+
 import { Avatar, Button, Container, Grid, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
-
 import SavingsIcon from '@mui/icons-material/Savings';
+
 import { IRootState } from '../../redux/store/store';
 import { ConnectWallet } from '../../common/components/ConnectWallet';
-import { startViewMyDeposit, startReleaseDeposit } from '../../redux/actions/walletActions';
+import { startReleaseDeposit, startViewMyDeposit } from '../../redux/actions/walletActions';
 
-export const ReleasePiggyScreen = () => {
+export const ViewPiggyScreen = () => {
 
   const dispatch = useDispatch();
   const { account, activeDeposit } = useSelector((state: IRootState) => state.wallet);
@@ -19,7 +20,7 @@ export const ReleasePiggyScreen = () => {
 
   useEffect(() => {
     dispatch(startViewMyDeposit());
-  }, []);
+  }, [dispatch]);
 
   return (
     <Container component="main" maxWidth="xs">

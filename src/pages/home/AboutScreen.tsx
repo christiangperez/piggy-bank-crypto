@@ -7,7 +7,7 @@ export const AboutScreen = () => {
     <>
       <Grid container justifyContent='space-between' sx={{ mt: 5 }}>
         <Grid item xs={12} md={6} sx={{ paddingLeft: 2, paddingRight: 2 }}>
-          <Grid item display='flex' alignItems='center' direction='row'>
+          <Grid container display='flex' alignItems='center' direction='row'>
             <SavingsIcon />
             <Typography variant='h6' sx={{ marginLeft: 1 }}>
               Crypto Piggy Bank
@@ -32,7 +32,7 @@ export const AboutScreen = () => {
           </IconButton>
         </Grid>
 
-        <Grid item xs={12} md={4} spacing={2} sx={{ paddingLeft: 2, paddingRight: 2 }}>
+        <Grid item xs={12} md={4} sx={{ paddingLeft: 2, paddingRight: 2 }}>
           <Paper sx={{ padding: 2, backgroundColor: 'primary.light' }}>
             <Typography variant='subtitle1' fontWeight='bold' color='white'>
               This App was created with tecnologies above

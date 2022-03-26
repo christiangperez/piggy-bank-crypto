@@ -11,10 +11,3 @@ export type WalletTypes =
         description?: string
     }}
 | { type: 'hideSnackbarTransactionResult' }
-
-| { type: 'startConnectWallet' }
-| { type: 'walletDepositCreated' }
-| { type: 'walletDepositReleased' }
-| { type: 'walletViewAddingDeposit' }
-| { type: 'walletHasDeposit' }
-| { type: 'walletDepositViewed' };

@@ -3,6 +3,7 @@ import { Provider } from "react-redux";
 import { store } from './redux/store/store';
 import { AppRouter } from "./routers/AppRouter";
 import { CssBaseline, ThemeProvider, createTheme, GlobalStyles } from '@mui/material';
+import { useEffect } from "react";
 
 const theme = createTheme({
   palette: {
@@ -20,6 +21,13 @@ const theme = createTheme({
 });
 
 const App = () => {
+
+  useEffect(() => {
+    window.process = {
+      ...window.process,
+    };
+  }, []);
+
   return (
     <ThemeProvider theme={theme}>
       <Provider store={ store }>

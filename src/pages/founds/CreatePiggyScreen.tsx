@@ -1,17 +1,18 @@
 import { useState } from 'react';
-import { Avatar, Button, Container, Grid, TextField, Typography, Snackbar, Alert } from '@mui/material';
-import Box from '@mui/material/Box';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { Avatar, Button, Container, Grid, TextField, Typography } from '@mui/material';
+import Box from '@mui/material/Box';
 import SavingsIcon from '@mui/icons-material/Savings';
+
 import { IRootState } from '../../redux/store/store';
 import { ConnectWallet } from '../../common/components/ConnectWallet';
-import { hideSnackbarTransactionResult, startMakeDeposit } from '../../redux/actions/walletActions';
+import { startMakeDeposit } from '../../redux/actions/walletActions';
 
 export const CreatePiggyScreen = () => {
 
   const dispatch = useDispatch();
-  const { account, transactionResult } = useSelector((state: IRootState) => state.wallet);
+  const { account } = useSelector((state: IRootState) => state.wallet);
   
   const [errors, setErrors] = useState<{ amount: string, expireDays: string }>({ amount: '', expireDays: ''});
 
@@ -21,8 +22,6 @@ export const CreatePiggyScreen = () => {
   });
 
   const { amount, expireDays } = form;
-
-  const [openSnackbar, setOpenSnackbar] = useState(false);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -51,10 +50,6 @@ export const CreatePiggyScreen = () => {
     }
   }
 
-  const handleCloseSnackBar = () => {
-    dispatch(hideSnackbarTransactionResult());
-  }
-
   return (
     <Container component="main" maxWidth="xs">
       <Box
@@ -65,13 +60,6 @@ export const CreatePiggyScreen = () => {
             alignItems: 'center',
           }}
         >
-          <Snackbar open={transactionResult.show} key='bottom center' anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }} autoHideDuration={3000} onClose={handleCloseSnackBar}>
-            <Alert onClose={handleCloseSnackBar} severity={ (transactionResult?.okStatus ? 'success' : 'error') } sx={{ width: '100%' }}>
-              {
-                transactionResult?.description
-              }
-            </Alert>
-          </Snackbar>
           <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
             <SavingsIcon />
           </Avatar>

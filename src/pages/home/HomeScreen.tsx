@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import { Grid, Typography, Button, useMediaQuery, useTheme, Container, Card, CardHeader, CardContent, CssBaseline, AppBar } from "@mui/material"
-import SavingsIcon from '@mui/icons-material/Savings';
 import { useNavigate } from "react-router";
+
+import { Grid, Typography, Button, useMediaQuery, useTheme, Container, Card, CardHeader, CardContent } from "@mui/material"
+import SavingsIcon from '@mui/icons-material/Savings';
 
 const cards = [
   {
@@ -45,43 +46,43 @@ export const HomeScreen = () => {
   return (
     <>
         <Container disableGutters maxWidth='xl'>
-        {/* Main Page */}
-            <Grid container sx={{ backgroundColor: 'primary.main', height: height - 50 }}>
+          {/* Main Page */}
+          <Grid container sx={{ backgroundColor: 'primary.main', height: height - 50 }}>
             <Grid 
                 container 
                 sx={{
-                backgroundColor: 'primary.main', 
-                paddingTop: {
-                    xs: 2, md: 6
-                }
+                  backgroundColor: 'primary.main', 
+                  paddingTop: {
+                      xs: 2, md: 6
+                  }
                 }} 
                 justifyContent='center'
             >
                 <Grid 
-                item 
-                xs={9} md={4} 
-                display='flex' 
-                alignItems={ mdOrUp ? 'center' : 'end' } 
-                justifyContent='center' 
+                  item 
+                  xs={9} md={4} 
+                  display='flex' 
+                  alignItems={ mdOrUp ? 'center' : 'end' } 
+                  justifyContent='center' 
                 >
                 <Typography 
                     variant={ mdOrUp ? 'h2' : 'h3' } 
                     sx={{
-                    marginTop: 2, 
-                    color: 'white', 
-                    textAlign: 'center', 
-                    fontWeight: 'bold'
+                      marginTop: 2, 
+                      color: 'white', 
+                      textAlign: 'center', 
+                      fontWeight: 'bold'
                     }}
                 >
                     Save your founds in a Crypto Piggy Bank
                 </Typography>
                 </Grid>
                 <Grid 
-                item 
-                xs={12} md={4} 
-                display='flex' 
-                justifyContent='center' 
-                alignItems='center' 
+                  item 
+                  xs={12} md={4} 
+                  display='flex' 
+                  justifyContent='center' 
+                  alignItems='center' 
                 >
                 <SavingsIcon color='warning' sx={{ fontSize: 200 }} />
                 </Grid>
@@ -90,15 +91,15 @@ export const HomeScreen = () => {
             {/* Create Piggy Button */}
             <Grid container>
                 <Grid 
-                item 
-                xs={12} md 
-                display='flex' 
-                alignItems='start' 
-                justifyContent='center'
-                sx={{
-                    pt: { xs: 1, md: 0 },
-                    pb: 1
-                }} 
+                  item 
+                  xs={12} md 
+                  display='flex' 
+                  alignItems='start' 
+                  justifyContent='center'
+                  sx={{
+                      pt: { xs: 1, md: 0 },
+                      pb: 1
+                  }} 
                 >
                 <Button 
                     variant='contained' 
@@ -111,7 +112,7 @@ export const HomeScreen = () => {
                 </Button>
                 </Grid>
             </Grid>
-            </Grid>
+          </Grid>
         </Container>
 
       {/* CardsPage Title */}
@@ -124,7 +125,6 @@ export const HomeScreen = () => {
           component="h1"
           variant="h2"
           align="center"
-          // color="white"
           gutterBottom
           fontWeight='bold'
         >
@@ -155,7 +155,6 @@ export const HomeScreen = () => {
                     backgroundColor: (theme) =>
                       theme.palette.mode === 'light'
                         ? theme.palette.primary.light
-                        // ? theme.palette.grey[200]
                         : theme.palette.grey[700]
                   }}
                 />

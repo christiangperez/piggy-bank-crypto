@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+
 import { Avatar, Button, Container, Grid, TextField, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import SavingsIcon from '@mui/icons-material/Savings';
@@ -46,7 +47,7 @@ export const AddFoundsScreen = () => {
 
   useEffect(() => {
     dispatch(startViewMyDeposit());
-  }, []);
+  }, [dispatch]);
 
   return (
     <Container component="main" maxWidth="xs">

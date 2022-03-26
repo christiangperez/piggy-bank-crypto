@@ -1,5 +1,6 @@
-import { Button } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
+import { Button } from '@mui/material';
+
 import { startConnectWallet } from '../../redux/actions/walletActions';
 import { IRootState } from '../../redux/store/store';
 

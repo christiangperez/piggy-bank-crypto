@@ -45,6 +45,7 @@ export const startConnectWallet = () => {
                         dispatch({ type: 'setContract', payload: contract });
 
                         dispatch({ type: 'showSnackbarTransactionResult', payload: { okStatus: true, description: 'Wallet connected' }})
+
                     }
 
                 })
@@ -148,15 +149,15 @@ export const startViewMyDeposit = () => {
                     if ( todayFormatted > myDeposit[1] ) {
                         releaseAvaible = true;
                     }
+                    releaseAvaible = true; // Remove this line when it pass to production
 
                     if (myDeposit[0] > 0) {
                         dispatch({ 
                             type: 'setActiveDeposit', 
                             payload: {
+                                releaseAvaible,
                                 amount: amountInEth,
                                 expireDate: moment(myExpireDate).format("MM-DD-YYYY") as string,
-                                releaseAvaible: true // Remove this line when it pass to production
-                                // releaseAvaible: ( todayFormatted > myDeposit[1] )
                             }
                         });
                     }
