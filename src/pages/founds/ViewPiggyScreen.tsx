@@ -35,21 +35,13 @@ export const ViewPiggyScreen = () => {
           <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
             <SavingsIcon />
           </Avatar>
-          {
-            (activeDeposit)
-            ? (
-              <>
-                <Typography variant="h4">
-                  You have a Crypto Piggy Bank CREATED
-                </Typography>
-              </>
-            )
-            : (
-              <Typography variant="h4">
-                You don't have a Crypto Piggy Bank CREATED
-              </Typography>
-            )
-          }
+          <Typography variant="h4" sx={{ textAlign: 'center' }}>
+            {
+              (activeDeposit)
+              ? ("You have a Crypto Piggy Bank CREATED")
+              : ("You don't have a Crypto Piggy Bank CREATED")
+            }
+          </Typography>
           <Box 
             component="form" 
             noValidate 

@@ -16,8 +16,8 @@ const DrawerNav = () => {
 
   const [openDrawer, setOpenDrawer] = useState(false);
 
-  const handleClick = (page: string) => {
-    setOpenDrawer(false);
+  const handleClick = (page: string) =>{
+    setOpenDrawer( false);
     navigate(page);
   }
 

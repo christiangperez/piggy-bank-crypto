@@ -14,7 +14,8 @@ interface IStateWallet {
         show: boolean,
         okStatus?: boolean,
         description?: string
-    }
+    },
+    depositAdded: boolean
 }
 
 const initialState: IStateWallet = {
@@ -25,7 +26,8 @@ const initialState: IStateWallet = {
     activeDeposit: null,
     transactionResult: {
         show: false
-    }
+    },
+    depositAdded: false
 }
 
 export const walletReducer = (state: IStateWallet = initialState, action: WalletTypes) => {
@@ -53,20 +55,24 @@ export const walletReducer = (state: IStateWallet = initialState, action: Wallet
         case 'setHasDeposit':
             return {
                 ...state,
-                hasDeposit: action.payload
+                hasDeposit: action.payload,
+                depositAdded: false
             }
 
         case 'setActiveDeposit':
             return {
                 ...state,
-                activeDeposit: action.payload
+                hasDeposit: true,
+                activeDeposit: action.payload,
+                depositAdded: false
             }
 
         case 'clearActiveDeposit':
             return {
                 ...state,
                 activeDeposit: null,
-                hasDeposit: false
+                hasDeposit: false,
+                depositAdded: false
             }
 
         case 'showSnackbarTransactionResult':
@@ -86,6 +92,12 @@ export const walletReducer = (state: IStateWallet = initialState, action: Wallet
                     ...state.transactionResult,
                     show: false
                 }
+            }
+
+        case 'depositAdded':
+            return {
+                ...state,
+                depositAdded: true
             }
 
         default:

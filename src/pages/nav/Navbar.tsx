@@ -73,17 +73,7 @@ const Navbar = (props: any) => {
       console.log(e, 'Exception error!');
     }
     
-  }
-
-  useEffect(() => {
-      initializeWeb3();
-  }, []);
-
-  useEffect(() => {
-    if (account) {
-      dispatch(startViewMyDeposit());
-    }
-  }, [account]);
+  }  
 
   const handleClickWallet = (event: any) => {
     setAnchorEl(event.currentTarget);
@@ -119,11 +109,40 @@ const Navbar = (props: any) => {
     dispatch(hideSnackbarTransactionResult());
   }
 
+  useEffect(() => {
+    initializeWeb3();
+  }, []);
+
+  useEffect(() => {
+    console.log('inicio');
+  }, []);
+  
+
+  useEffect(() => {
+    if (account) {
+      dispatch(startViewMyDeposit());
+    }
+  }, [account]);
+  
+  useEffect(() => {
+    const positionInLinks = NavbarLinks
+                          .filter((p) => p.private === (account?.length > 0 && activeDeposit !== null) || p.private === false)
+                          .findIndex((l) => l.url === String(pathname.slice(1)).toLowerCase());
+
+    setSelectedTab((positionInLinks >= 0) ? positionInLinks : 0);
+  }, [pathname, account, activeDeposit]);
+
   return (
     <>
       <AppBar position='static' sx={{ background: 'primary' }}>
         <Toolbar>
-          <Snackbar open={transactionResult.show} key='bottom center' anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }} autoHideDuration={3000} onClose={handleCloseSnackBar}>
+          <Snackbar 
+            key='top center' 
+            anchorOrigin={{ vertical: 'top', horizontal: 'center' }} 
+            autoHideDuration={3000} 
+            open={transactionResult.show} 
+            onClose={handleCloseSnackBar}
+          >
             <Alert onClose={handleCloseSnackBar} severity={ (transactionResult?.okStatus ? 'success' : 'error') } sx={{ width: '100%' }}>
               {
                 transactionResult?.description

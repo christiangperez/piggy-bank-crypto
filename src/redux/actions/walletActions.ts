@@ -4,7 +4,7 @@ import detectEthereumProvider from '@metamask/detect-provider';
 import Web3 from 'web3';
 import TruffleContract from "@truffle/contract";
 import moment from 'moment';
-import PiggyBankCrypto from '../../solidity/abis/PiggyBankCrypto.json';
+import PiggyBankCrypto from '../../abis/PiggyBankCrypto.json';
 
 import { WalletTypes } from '../actionTypes/WalletTypes';
 
@@ -111,7 +111,7 @@ export const startMakeDeposit = ( amount: any, daysToExpire: any ) => {
 
                         dispatch({ type: 'setHasDeposit', payload: true });
                         
-                        dispatch({ type: 'showSnackbarTransactionResult', payload: { okStatus: true, description: 'Successful release!' }})
+                        dispatch({ type: 'showSnackbarTransactionResult', payload: { okStatus: true, description: 'Piggy Bank created successfully!' }})
                         
                     } else {
                         dispatch({ type: 'showSnackbarTransactionResult', payload: { okStatus: false, description: `You need to choose a expire days bigger than ${ minimumDays } days` }})
@@ -131,7 +131,6 @@ export const startMakeDeposit = ( amount: any, daysToExpire: any ) => {
 
 export const startViewMyDeposit = () => {
     return async( dispatch: Dispatch<WalletTypes>, getState: any ) => {
-
         const { contract, account } = getState().wallet;
 
         if (contract) {
@@ -194,10 +193,11 @@ export const startAddDeposit = (amount: any) => {
                             from: account
                         });
 
+                        dispatch({ type: 'depositAdded' });
                         dispatch({ type: 'showSnackbarTransactionResult', payload: { okStatus: true, description: 'Added deposit successfully!' }})
 
-                    } catch (error) {
-                        dispatch({ type: 'showSnackbarTransactionResult', payload: { okStatus: false, description: 'An error has ocurred. ' + error }})
+                    } catch (e: any) {
+                        dispatch({ type: 'showSnackbarTransactionResult', payload: { okStatus: false, description: 'An error has ocurred. ' + e.message }})
                     }
                 } else {
                     dispatch({ type: 'showSnackbarTransactionResult', payload: { okStatus: false, description: 'You need to specifie an amount' }})

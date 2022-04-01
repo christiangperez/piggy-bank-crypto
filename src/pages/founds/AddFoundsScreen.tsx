@@ -12,9 +12,10 @@ import { startAddDeposit, startViewMyDeposit } from '../../redux/actions/walletA
 export const AddFoundsScreen = () => {
 
   const dispatch = useDispatch();
-  const { account, activeDeposit } = useSelector((state: IRootState) => state.wallet);
+  const { account, activeDeposit, depositAdded } = useSelector((state: IRootState) => state.wallet);
 
   const [errors, setErrors] = useState<{ amount: string }>({ amount: '' });
+  const [showDepositAdded, setShowDepositAdded] = useState(false);
 
   const [form, setForm] = useState({
     amount: ''
@@ -49,6 +50,12 @@ export const AddFoundsScreen = () => {
     dispatch(startViewMyDeposit());
   }, [dispatch]);
 
+  useEffect(() => {
+    if (depositAdded) {
+      setShowDepositAdded(true);
+    }
+  }, [depositAdded]);
+
   return (
     <Container component="main" maxWidth="xs">
       <Box
@@ -66,7 +73,7 @@ export const AddFoundsScreen = () => {
           (activeDeposit)
           ? (
             <>
-              <Typography variant="h4">
+              <Typography variant="h4" sx={{ textAlign: 'center' }}>
                 Adding founds to my Crypto Piggy Bank
               </Typography>
               <Box 
@@ -75,42 +82,57 @@ export const AddFoundsScreen = () => {
                 onSubmit={handleSubmit} 
                 sx={{ mt: 3 }}
               >
-                <Grid container spacing={2}>
-                  <Grid item xs={12}>
-                    <Typography variant="h6">
-                      You have {activeDeposit?.amount} ETH in your Piggy Bank
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <TextField
-                      required
-                      fullWidth
-                      id="amount"
-                      label="Amount to Add"
-                      name="amount"
-                      error={Boolean(errors?.amount)}
-                      helperText={errors?.amount}
-                      value={amount}
-                      onChange={handleChange}
-                    />
-                  </Grid>
-                </Grid>
-                {
-                  (account)
-                  ? (
-                      <Button
-                        fullWidth
-                        variant="contained"
-                        sx={{ mt: 3, mb: 2 }}
-                        onClick={handleClickAdd}
-                      >
-                        ADD
-                      </Button>
-                  )
-                  : (
-                    <ConnectWallet sx={{ mt: 3, mb: 2 }} fullWidth />
-                  )
-                }
+                
+                  {
+                    (showDepositAdded)
+                    ? (
+                      <Grid container spacing={2}>
+                        <Grid item xs={12}>
+                          <Typography variant="h6">
+                            Your ETH deposit has been added into your Crypto Piggy Bank
+                          </Typography>
+                        </Grid>
+                      </Grid>
+                    )
+                    : (
+                      <Grid container spacing={2}>
+                        <Grid item xs={12}>
+                          <Typography variant="h6">
+                            You have {activeDeposit?.amount} ETH in your Piggy Bank
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={12}>
+                          <TextField
+                            required
+                            fullWidth
+                            id="amount"
+                            label="Amount to Add"
+                            name="amount"
+                            error={Boolean(errors?.amount)}
+                            helperText={errors?.amount}
+                            value={amount}
+                            onChange={handleChange}
+                          />
+                        </Grid>
+                        {
+                          (account)
+                          ? (
+                              <Button
+                                fullWidth
+                                variant="contained"
+                                sx={{ mt: 3, mb: 2 }}
+                                onClick={handleClickAdd}
+                              >
+                                ADD
+                              </Button>
+                          )
+                          : (
+                            <ConnectWallet sx={{ mt: 3, mb: 2 }} fullWidth />
+                          )
+                        }
+                      </Grid>
+                    )
+                  }
               </Box>
             </>
           )

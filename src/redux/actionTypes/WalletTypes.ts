@@ -11,3 +11,4 @@ export type WalletTypes =
         description?: string
     }}
 | { type: 'hideSnackbarTransactionResult' }
+| { type: 'depositAdded' }

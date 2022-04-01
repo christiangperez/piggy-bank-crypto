@@ -39,7 +39,7 @@ export const ReleasePiggyScreen = () => {
             (activeDeposit)
             ? (
               <>
-                <Typography variant="h4">
+                <Typography variant="h4" sx={{ textAlign: 'center' }}>
                   You have a Crypto Piggy Bank CREATED
                 </Typography>
               </>

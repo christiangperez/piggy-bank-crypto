@@ -80,7 +80,7 @@ module.exports = {
   },
 
   contracts_directory: './solidity/contracts/',
-  contracts_build_directory: './src/solidity/abis/',
+  contracts_build_directory: './src/abis/',
   migrations_directory: './solidity/migrations',
   test_directory: './solidity/test',
   // Configure your compilers
