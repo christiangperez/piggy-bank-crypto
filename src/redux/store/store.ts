@@ -3,7 +3,7 @@ import thunk from 'redux-thunk';
 import { walletReducer } from '../reducers/walletReducer';
 
 const rootReducer = combineReducers({
-	wallet: walletReducer,
+  wallet: walletReducer,
 });
 
 export const store = createStore(rootReducer, applyMiddleware(thunk));

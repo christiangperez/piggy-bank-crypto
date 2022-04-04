@@ -2,40 +2,47 @@ import { Provider } from 'react-redux';
 
 import { store } from './redux/store/store';
 import { AppRouter } from './routers/AppRouter';
-import { CssBaseline, ThemeProvider, createTheme, GlobalStyles } from '@mui/material';
+import {
+  CssBaseline,
+  ThemeProvider,
+  createTheme,
+  GlobalStyles,
+} from '@mui/material';
 import { useEffect } from 'react';
 
 const theme = createTheme({
-	palette: {
-		primary: {
-			main: '#020870',
-			light: '#0209a1',
-			dark: '#000338',
-		},
-		secondary: {
-			main: '#0e90a1',
-			light: '#0fa9bd',
-			dark: '#0a6b78',
-		},
-	},
+  palette: {
+    primary: {
+      main: '#020870',
+      light: '#0209a1',
+      dark: '#000338',
+    },
+    secondary: {
+      main: '#0e90a1',
+      light: '#0fa9bd',
+      dark: '#0a6b78',
+    },
+  },
 });
 
 const App = () => {
-	useEffect(() => {
-		window.process = {
-			...window.process,
-		};
-	}, []);
+  useEffect(() => {
+    window.process = {
+      ...window.process,
+    };
+  }, []);
 
-	return (
-		<ThemeProvider theme={theme}>
-			<Provider store={store}>
-				<GlobalStyles styles={{ ul: { margin: 0, padding: 0, listStyle: 'none' } }} />
-				<CssBaseline />
-				<AppRouter />
-			</Provider>
-		</ThemeProvider>
-	);
+  return (
+    <ThemeProvider theme={theme}>
+      <Provider store={store}>
+        <GlobalStyles
+          styles={{ ul: { margin: 0, padding: 0, listStyle: 'none' } }}
+        />
+        <CssBaseline />
+        <AppRouter />
+      </Provider>
+    </ThemeProvider>
+  );
 };
 
 export default App;
