@@ -17,7 +17,7 @@ export const ConnectWallet = (props: any) => {
   return (
     <Button
       variant='contained'
-      color='success'
+      color='primary'
       onClick={handleClickConnectWallet}
       {...props}
     >

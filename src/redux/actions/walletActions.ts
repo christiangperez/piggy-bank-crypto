@@ -182,7 +182,7 @@ export const startViewMyDeposit = () => {
           if (todayFormatted > myDeposit[1]) {
             releaseAvaible = true;
           }
-          releaseAvaible = true; // Remove this line when it pass to production
+          releaseAvaible = true; // TODO: Remove this line when it pass to production
 
           if (myDeposit[0] > 0) {
             dispatch({
@@ -204,7 +204,6 @@ export const startViewMyDeposit = () => {
           });
         }
       } else {
-        // window.alert('Error. Reconnect your Metamask');
         dispatch({
           type: 'showSnackbarTransactionResult',
           payload: {
@@ -214,7 +213,6 @@ export const startViewMyDeposit = () => {
         });
       }
     } else {
-      // window.alert('Error. Reconnect your Metamask');
       dispatch({
         type: 'showSnackbarTransactionResult',
         payload: {

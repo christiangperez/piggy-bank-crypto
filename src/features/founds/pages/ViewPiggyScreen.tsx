@@ -5,14 +5,14 @@ import { Avatar, Button, Container, Grid, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import SavingsIcon from '@mui/icons-material/Savings';
 
-import { IRootState } from '../../redux/store/store';
-import { ConnectWallet } from '../../common/components/ConnectWallet';
+import { IRootState } from '../../../redux/store/store';
+import { ConnectWallet } from '../../../common/components/ConnectWallet';
 import {
-  startViewMyDeposit,
   startReleaseDeposit,
-} from '../../redux/actions/walletActions';
+  startViewMyDeposit,
+} from '../../../redux/actions/walletActions';
 
-export const ReleasePiggyScreen = () => {
+export const ViewPiggyScreen = () => {
   const dispatch = useDispatch();
   const { account, activeDeposit } = useSelector(
     (state: IRootState) => state.wallet
@@ -24,11 +24,12 @@ export const ReleasePiggyScreen = () => {
 
   useEffect(() => {
     dispatch(startViewMyDeposit());
-  }, []);
+  }, [dispatch]);
 
   return (
     <Container component='main' maxWidth='xs'>
       <Box
+        component='div'
         sx={{
           marginTop: 8,
           display: 'flex',
@@ -39,27 +40,21 @@ export const ReleasePiggyScreen = () => {
         <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
           <SavingsIcon />
         </Avatar>
-        {activeDeposit ? (
-          <>
-            <Typography variant='h4' sx={{ textAlign: 'center' }}>
-              You have a Crypto Piggy Bank CREATED
-            </Typography>
-          </>
-        ) : (
-          <Typography variant='h4'>
-            You don't have a Crypto Piggy Bank CREATED
-          </Typography>
-        )}
+        <Typography variant='h4' sx={{ textAlign: 'center' }} color='white'>
+          {activeDeposit
+            ? 'You have a Crypto Piggy Bank CREATED'
+            : "You don't have a Crypto Piggy Bank CREATED"}
+        </Typography>
         <Box component='form' noValidate sx={{ mt: 3 }}>
           {activeDeposit && (
             <Grid container spacing={2}>
               <Grid item xs={12}>
-                <Typography variant='h6'>
+                <Typography variant='h6' color='white'>
                   Creation date: {activeDeposit?.expireDate}
                 </Typography>
               </Grid>
               <Grid item xs={12}>
-                <Typography variant='h6'>
+                <Typography variant='h6' color='white'>
                   Amount: {activeDeposit?.amount} ETH
                 </Typography>
               </Grid>

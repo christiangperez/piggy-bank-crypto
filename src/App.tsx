@@ -9,18 +9,19 @@ import {
   GlobalStyles,
 } from '@mui/material';
 import { useEffect } from 'react';
+import './App.css';
 
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#020870',
-      light: '#0209a1',
-      dark: '#000338',
+      main: '#5b68e1',
+      // light: '#0209a1',
+      dark: '#6298f0',
     },
     secondary: {
-      main: '#0e90a1',
-      light: '#0fa9bd',
-      dark: '#0a6b78',
+      main: '#181e37',
+      // light: '#0fa9bd',
+      // dark: '#0a6b78',
     },
   },
 });

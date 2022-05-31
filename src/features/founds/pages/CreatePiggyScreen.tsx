@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
@@ -12,9 +12,9 @@ import {
 import Box from '@mui/material/Box';
 import SavingsIcon from '@mui/icons-material/Savings';
 
-import { IRootState } from '../../redux/store/store';
-import { ConnectWallet } from '../../common/components/ConnectWallet';
-import { startMakeDeposit } from '../../redux/actions/walletActions';
+import { IRootState } from '../../../redux/store/store';
+import { ConnectWallet } from '../../../common/components/ConnectWallet';
+import { startMakeDeposit } from '../../../redux/actions/walletActions';
 import { useNavigate } from 'react-router';
 
 export const CreatePiggyScreen = () => {
@@ -69,8 +69,9 @@ export const CreatePiggyScreen = () => {
   };
 
   return (
-    <Container component='main' maxWidth='xs'>
+    <Container maxWidth='xl'>
       <Box
+        component='div'
         sx={{
           marginTop: 8,
           display: 'flex',
@@ -83,7 +84,7 @@ export const CreatePiggyScreen = () => {
         </Avatar>
         {!hasDeposit ? (
           <>
-            <Typography variant='h4' sx={{ textAlign: 'center' }}>
+            <Typography variant='h4' sx={{ textAlign: 'center' }} color='white'>
               Creating my Crypto Piggy Bank
             </Typography>
             <Box
@@ -105,6 +106,24 @@ export const CreatePiggyScreen = () => {
                     helperText={errors?.amount}
                     value={amount}
                     onChange={handleChange}
+                    sx={{
+                      input: { color: 'white' },
+                      '& .MuiInputLabel-root': { color: '#dbdbdb' },
+                      '& .MuiOutlinedInput-root': {
+                        '& > fieldset': { borderColor: '#dbdbdb' },
+                      },
+                      '& .MuiOutlinedInput-root.Mui-focused': {
+                        '& > fieldset': {
+                          borderColor: 'primary',
+                        },
+                      },
+                      '& .MuiOutlinedInput-root:hover': {
+                        '& > fieldset': {
+                          borderColor: 'primary.light',
+                        },
+                      },
+                    }}
+                    variant='outlined'
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -119,6 +138,27 @@ export const CreatePiggyScreen = () => {
                     helperText={errors?.expireDays}
                     value={expireDays}
                     onChange={handleChange}
+                    InputLabelProps={{
+                      style: { color: '#dbdbdb' },
+                    }}
+                    sx={{
+                      input: { color: 'white' },
+                      '& .MuiInputLabel-root': { color: '#dbdbdb' },
+                      '& .MuiOutlinedInput-root': {
+                        '& > fieldset': { borderColor: '#dbdbdb' },
+                      },
+                      '& .MuiOutlinedInput-root.Mui-focused': {
+                        '& > fieldset': {
+                          borderColor: 'primary',
+                        },
+                      },
+                      '& .MuiOutlinedInput-root:hover': {
+                        '& > fieldset': {
+                          borderColor: 'primary.light',
+                        },
+                      },
+                    }}
+                    variant='outlined'
                   />
                 </Grid>
               </Grid>
@@ -138,17 +178,24 @@ export const CreatePiggyScreen = () => {
           </>
         ) : (
           <>
-            <Typography variant='h4' sx={{ textAlign: 'center' }}>
-              You have already a Crypto Piggy Bank
-            </Typography>
-            <Button
-              fullWidth
-              variant='contained'
-              sx={{ mt: 3, mb: 2 }}
-              onClick={handleClickViewMyDeposit}
-            >
-              VIEW MY DEPOSIT
-            </Button>
+            <Container maxWidth='xl'>
+              <Typography
+                variant='h4'
+                sx={{ textAlign: 'center' }}
+                color='white '
+              >
+                You have already a Crypto Piggy Bank
+              </Typography>
+              <Grid display='flex' justifyContent='center' sx={{ mt: 2 }}>
+                <Button
+                  variant='contained'
+                  sx={{ mt: 3, mb: 2 }}
+                  onClick={handleClickViewMyDeposit}
+                >
+                  VIEW MY DEPOSIT
+                </Button>
+              </Grid>
+            </Container>
           </>
         )}
       </Box>

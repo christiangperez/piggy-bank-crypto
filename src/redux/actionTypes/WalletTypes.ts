@@ -8,7 +8,6 @@ export type WalletTypes =
   | {
       type: 'showSnackbarTransactionResult';
       payload: {
-        // show: boolean,
         okStatus?: boolean;
         description?: string;
       };
