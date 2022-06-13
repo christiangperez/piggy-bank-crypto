@@ -109,7 +109,7 @@ contract PiggyBankCrypto {
         require(_deposits[msg.sender].amount > _commission, "You does not have sufficient founds");
         require(_deposits[msg.sender].amount > _minimum, "You does not have sufficient founds");
 
-        // Quitar cuando se pase a produccion
+        // Remove when move it to production
         // require(block.timestamp > _deposits[msg.sender].expireDate, "Your deposit is not finished");
         
         uint256 transferAmount = _deposits[msg.sender].amount - _commission;
@@ -118,7 +118,6 @@ contract PiggyBankCrypto {
 
         delete _deposits[msg.sender];
 
-        //que pasa si falla el transfer? conviene hacer un send?
         // what happened if transfer fails? should I do a Send?
 
         emit DepositReleased(msg.sender, transferAmount, _commission);
