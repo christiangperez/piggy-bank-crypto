@@ -66,11 +66,11 @@ contract PiggyBankCrypto {
         _minimumDays = minimumDays_;
     }
 
-    function viewMyDepositExpireDate() public view returns (uint256) { // remover (usaria el ViewMyDeposit)
+    function viewMyDepositExpireDate() public view returns (uint256) { // remove (I would use ViewMyDeposit)
         return _deposits[msg.sender].expireDate;
     }
 
-    function viewMyDepositAmount() public view returns (uint256) { // remover (usaria el ViewMyDeposit)
+    function viewMyDepositAmount() public view returns (uint256) { // remove (I would use ViewMyDeposit)
         return _deposits[msg.sender].amount;
     }
 

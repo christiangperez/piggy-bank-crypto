@@ -1,31 +1,17 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef } from 'react';
 import { useGLTF } from '@react-three/drei';
 import { useFrame } from '@react-three/fiber';
-import { useSpring, animated } from '@react-spring/three';
+import { animated } from '@react-spring/three';
 
 export default function PiggyModel({ ...props }) {
-  const [clicked, setClicked] = useState(false);
   const group = useRef();
   const { nodes, materials } = useGLTF('/piggy.gltf');
-  const { scale } = useSpring({
-    scale: clicked ? 1.1 : 1,
-  });
 
   const mesh = useRef();
   useFrame(() => (mesh.current.rotation.y += 0.01));
 
-  useEffect(() => {
-    console.log(scale, 'scaleee');
-  }, [scale]);
-
   return (
-    <animated.group
-      ref={group}
-      {...props}
-      dispose={null}
-      onPointerUp={() => setClicked(false)}
-      onPointerDown={() => setClicked(true)}
-    >
+    <animated.group ref={group} {...props} dispose={null}>
       <group rotation={[-Math.PI / 2, 0, 0]}>
         <group rotation={[Math.PI / 2, 0, 0]} ref={mesh}>
           <group position={[-0.37, 0, 0]}>
